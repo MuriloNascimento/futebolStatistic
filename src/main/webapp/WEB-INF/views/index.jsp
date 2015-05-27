@@ -17,18 +17,16 @@
 	</style>
 	<script type="text/javascript">
 	
-	var serie = [
-	    <c:forEach var="time" items="${requestScope.times}">
-	    	{name: "${time.nome}",data:[${time.titulos}]},
-	    </c:forEach>
-	    ];
+	
+	
+	var grafico = jQuery.parseJSON('${requestScope.graficoG}');
 	$(function () {
 	    $('#container').highcharts({
 	    	chart:{
-	    		type: 'column'
+	    		type: grafico.tipo
 	    	},
 	        title: {
-	            text: 'Monthly Average Temperature',
+	            text: grafico.titulo,
 	            x: -20 //center
 	        },
 	        subtitle: {
@@ -36,7 +34,7 @@
 	            x: -20
 	        },
 	        xAxis: {
-	            categories: ['janeiro','feverreiro'],
+	            categories: grafico.categories,
 	            crosshair: true
 	        },
 	        yAxis: {
@@ -60,7 +58,7 @@
 	            borderWidth: 1,
 	            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
 	        },
-	        series: serie
+	        series: grafico.series
 	    });
 	});
 	</script>
