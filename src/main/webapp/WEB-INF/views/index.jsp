@@ -13,16 +13,16 @@
 	<script src="http://code.highcharts.com/modules/exporting.js"></script>
 	<style type="text/css">
 		body{background-color: #f1f1f1;}
-		#container{margin: 10px;}
+		.padding-box{padding: 10px;}
+		.w3-sidenav a:hover, .w3-sidenav a:focus{background: #7CB342 !important;}
 	</style>
 	<script type="text/javascript">
-	
-	
-	
-	var grafico = jQuery.parseJSON('${requestScope.graficoG}');
+	var series = jQuery.parseJSON('${requestScope.series}');
+	var grafico = jQuery.parseJSON('${requestScope.grafico}');
 	$(function () {
 	    $('#container').highcharts({
 	    	chart:{
+	    		spacingBottom: 120,
 	    		type: grafico.tipo
 	    	},
 	        title: {
@@ -30,7 +30,7 @@
 	            x: -20 //center
 	        },
 	        subtitle: {
-	            text: 'Source: WorldClimate.com',
+	            text: grafico.subTitulo,
 	            x: -20
 	        },
 	        xAxis: {
@@ -39,7 +39,7 @@
 	        },
 	        yAxis: {
 	            title: {
-	                text: 'Titulos'
+	                text: grafico.yTexto
 	            },
 	            plotLines: [{
 	                value: 0,
@@ -48,33 +48,32 @@
 	            }]
 	        },
 	        tooltip: {
-	            valueSuffix: ' titulos'
+	            valueSuffix: grafico.tooltip
 	        },
 	        legend: {
-	            layout: 'vertical',
-	            align: 'right',
-	            verticalAlign: 'top',
-	            floating: false,
-	            borderWidth: 1,
-	            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+	            enabled: true,
+	            floating: true,
+	            verticalAlign: 'bottom',
+	            align:'center',
+	            y:60
 	        },
-	        series: grafico.series
+	        series: series
 	    });
 	});
 	</script>
 </head>
-<body>
+<body class="grey-l2">
 	<header>
-		<div class="w3-header blue">
+		<div class="w3-header light-green-d1">
 		  <a href="#id01" class="w3-opennav w3-xlarge"><i class="fa fa-bars"></i></a> 
 		</div>
 	</header>
-	<nav id="id01" class="w3-sidenav red w3-depth-4">
-		  <a href="#" class="w3-closenav w3-large">Close ×</a>
-		  <a href="#">Link 1</a>		
-		  <a href="#">Link 2</a>		
-		  <a href="#">Link 3</a>		
-		</nav>
-	<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	<nav id="id01" class="w3-sidenav green-d2 w3-depth-4">
+	  <a href="#" class="w3-closenav w3-border-bottom w3-large">Close ×</a>
+	  <a href="#" class="w3-border-bottom">Link 1</a>		
+	  <a href="#" class="w3-border-bottom">Link 2</a>		
+	  <a href="#" class="w3-border-bottom">Link 3</a>		
+	</nav>
+	<div id="container" class="padding-box" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 </body>
 </html>

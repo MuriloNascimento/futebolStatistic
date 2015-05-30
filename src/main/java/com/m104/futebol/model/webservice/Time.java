@@ -1,14 +1,16 @@
 
 package com.m104.futebol.model.webservice;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+
+import com.mnstech.futebolStatistic.entidades.Grafico;
 
 
 /**
@@ -23,9 +25,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *       &lt;sequence>
  *         &lt;element name="escudo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="estadio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="fundacao" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="jogadores" type="{http://webservice.model.futebol.m104.com/}jogador" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="nome" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="tecnico" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="titulos" type="{http://www.w3.org/2001/XMLSchema}int"/>
@@ -41,25 +41,27 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlType(name = "time", propOrder = {
     "escudo",
     "estadio",
-    "fundacao",
     "id",
-    "jogadores",
     "nome",
     "tecnico",
-    "titulos"
+    "titulos",
+    "grafico"
 })
+@Entity
+@XmlRootElement
 public class Time {
 
     protected String escudo;
     protected String estadio;
-    @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar fundacao;
+    @Id
     protected long id;
-    @XmlElement(nillable = true)
-    protected List<Jogador> jogadores;
     protected String nome;
     protected String tecnico;
     protected int titulos;
+    
+    @JoinColumn
+    @ManyToOne
+    private Grafico grafico;
 
     /**
      * Gets the value of the escudo property.
@@ -110,30 +112,6 @@ public class Time {
     }
 
     /**
-     * Gets the value of the fundacao property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getFundacao() {
-        return fundacao;
-    }
-
-    /**
-     * Sets the value of the fundacao property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setFundacao(XMLGregorianCalendar value) {
-        this.fundacao = value;
-    }
-
-    /**
      * Gets the value of the id property.
      * 
      */
@@ -147,35 +125,6 @@ public class Time {
      */
     public void setId(long value) {
         this.id = value;
-    }
-
-    /**
-     * Gets the value of the jogadores property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the jogadores property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getJogadores().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Jogador }
-     * 
-     * 
-     */
-    public List<Jogador> getJogadores() {
-        if (jogadores == null) {
-            jogadores = new ArrayList<Jogador>();
-        }
-        return this.jogadores;
     }
 
     /**
@@ -242,4 +191,14 @@ public class Time {
         this.titulos = value;
     }
 
+	public Grafico getGrafico() {
+		return grafico;
+	}
+
+	public void setGrafico(Grafico grafico) {
+		this.grafico = grafico;
+	}
+
+    
+    
 }

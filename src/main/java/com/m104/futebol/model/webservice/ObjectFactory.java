@@ -59,14 +59,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Jogador }
-     * 
-     */
-    public Jogador createJogador() {
-        return new Jogador();
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link BuscarTodos }{@code >}}
      * 
      */
