@@ -1,10 +1,15 @@
 
 package com.m104.futebol.model.webservice;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -45,7 +50,8 @@ import com.mnstech.futebolStatistic.entidades.Grafico;
     "nome",
     "tecnico",
     "titulos",
-    "grafico"
+    "grafico",
+    "jogadores"
 })
 @Entity
 @XmlRootElement
@@ -62,6 +68,9 @@ public class Time {
     @JoinColumn
     @ManyToOne
     private Grafico grafico;
+    
+    @OneToMany(mappedBy="time",fetch=FetchType.EAGER,cascade=CascadeType.REMOVE)
+	private List<Jogador> jogadores;
 
     /**
      * Gets the value of the escudo property.
@@ -199,6 +208,12 @@ public class Time {
 		this.grafico = grafico;
 	}
 
-    
-    
+	public List<Jogador> getJogadores() {
+		return jogadores;
+	}
+
+	public void setJogadores(List<Jogador> jogadores) {
+		this.jogadores = jogadores;
+	}
+
 }

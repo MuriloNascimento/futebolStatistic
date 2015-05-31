@@ -10,10 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
-import com.m104.futebol.model.webservice.ConsumerFactory;
+import com.m104.futebol.model.webservice.Consumer;
+import com.m104.futebol.model.webservice.Jogador;
 import com.m104.futebol.model.webservice.Time;
 import com.mnstech.futebolStatistic.entidades.Grafico;
 import com.mnstech.futebolStatistic.entidades.Serie;
+import com.mnstech.futebolStatistic.repositories.JogadorRepository;
 import com.mnstech.futebolStatistic.repositories.TimeRepository;
 
 
@@ -23,6 +25,9 @@ public class HomeController {
 	
 	@Inject
 	private TimeRepository timeRepository;
+	
+	@Inject
+	private JogadorRepository jogadorRepository;
 	
 	@RequestMapping("/home")
 	public String home(Model model){
@@ -57,7 +62,11 @@ public class HomeController {
 	
 	@RequestMapping("/atualizaBanco")
 	public String atualizaBanco(){
-		List<Time> times = new ConsumerFactory().getTimes();
+		List<Time> times = new Consumer().getTimes();
+		List<Jogador> jogadores = new Consumer().getJogadores();
+		for (Jogador jogador : jogadores) {
+			jogadorRepository.adicionar(jogador);
+		}
 		for (Time time : times) {
 			timeRepository.adicionar(time);
 		}
