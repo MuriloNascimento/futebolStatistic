@@ -15,6 +15,8 @@ import com.m104.futebol.model.webservice.Jogador;
 import com.m104.futebol.model.webservice.Time;
 import com.mnstech.futebolStatistic.entidades.Grafico;
 import com.mnstech.futebolStatistic.entidades.Serie;
+import com.mnstech.futebolStatistic.entidades.parse.GraficoParse;
+import com.mnstech.futebolStatistic.repositories.GraficoRepository;
 import com.mnstech.futebolStatistic.repositories.JogadorRepository;
 import com.mnstech.futebolStatistic.repositories.TimeRepository;
 
@@ -29,31 +31,29 @@ public class HomeController {
 	@Inject
 	private JogadorRepository jogadorRepository;
 	
+	@Inject
+	private GraficoRepository graficoRepository;
+	
 	@RequestMapping("/home")
 	public String home(Model model){
 		
 		Gson gson = new Gson();
-		List<Time> times = timeRepository.buscarTodos();
 		
-		List<String> categorias = new ArrayList<String>();
-		categorias.add("janeiro");
-		categorias.add("fevereiro");
-		
-		Grafico grafico = new Grafico();
-		grafico.setTipo("column");
-		grafico.setTitulo("Titulos");
-		grafico.setSubTitulo("numero de titulos por mês");
-		grafico.setTooltip("titulos");
-		grafico.setyTexto("titulos");
-		grafico.setCategories(categorias);
+		Grafico grafico = graficoRepository.buscarPorId(2);
 		
 		List<Serie> series = new ArrayList<Serie>();
+		List<Time> times = grafico.getTimes();
 		for (Time time : times) {
 			series.add(new Serie(time));
 		}
+		List<String> categorias = new ArrayList<String>();
+		categorias.add("JAN");
+		categorias.add("FEV");
+		
+		GraficoParse graficoParse = new GraficoParse(grafico,categorias);
 
 		String dados = gson.toJson(series);
-		String dadosG = gson.toJson(grafico);
+		String dadosG = gson.toJson(graficoParse);
 		model.addAttribute("series",dados);
 		model.addAttribute("grafico",dadosG);
 		
@@ -63,12 +63,14 @@ public class HomeController {
 	@RequestMapping("/atualizaBanco")
 	public String atualizaBanco(){
 		List<Time> times = new Consumer().getTimes();
-		List<Jogador> jogadores = new Consumer().getJogadores();
-		for (Jogador jogador : jogadores) {
-			jogadorRepository.adicionar(jogador);
-		}
+		List<Jogador> jogadores = new ArrayList<Jogador>();
 		for (Time time : times) {
 			timeRepository.adicionar(time);
+			jogadores.addAll(time.getJogadores());
+		}
+		
+		for (Jogador jogador : jogadores) {
+			jogadorRepository.adicionar(jogador);
 		}
 		return "cadastro-serie";
 	}

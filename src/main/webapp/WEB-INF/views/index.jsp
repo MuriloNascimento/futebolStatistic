@@ -11,55 +11,17 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script src="http://code.highcharts.com/highcharts.js"></script>
 	<script src="http://code.highcharts.com/modules/exporting.js"></script>
+	<script src="skin/js/main.js"></script>
 	<style type="text/css">
 		body{background-color: #f1f1f1;}
 		.padding-box{padding: 10px;}
 		.w3-sidenav a:hover, .w3-sidenav a:focus{background: #7CB342 !important;}
 	</style>
+	
 	<script type="text/javascript">
-	var series = jQuery.parseJSON('${requestScope.series}');
-	var grafico = jQuery.parseJSON('${requestScope.grafico}');
-	$(function () {
-	    $('#container').highcharts({
-	    	chart:{
-	    		spacingBottom: 120,
-	    		type: grafico.tipo
-	    	},
-	        title: {
-	            text: grafico.titulo,
-	            x: -20 //center
-	        },
-	        subtitle: {
-	            text: grafico.subTitulo,
-	            x: -20
-	        },
-	        xAxis: {
-	            categories: grafico.categories,
-	            crosshair: true
-	        },
-	        yAxis: {
-	            title: {
-	                text: grafico.yTexto
-	            },
-	            plotLines: [{
-	                value: 0,
-	                width: 1,
-	                color: '#808080'
-	            }]
-	        },
-	        tooltip: {
-	            valueSuffix: grafico.tooltip
-	        },
-	        legend: {
-	            enabled: true,
-	            floating: true,
-	            verticalAlign: 'bottom',
-	            align:'center',
-	            y:60
-	        },
-	        series: series
-	    });
-	});
+		var series = jQuery.parseJSON('${requestScope.series}');
+		var grafico = jQuery.parseJSON('${requestScope.grafico}');
+		gerarGrafico(series,grafico);
 	</script>
 </head>
 <body class="grey-l2">

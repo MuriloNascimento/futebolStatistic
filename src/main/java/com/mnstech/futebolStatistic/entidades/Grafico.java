@@ -1,19 +1,24 @@
 package com.mnstech.futebolStatistic.entidades;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 import com.m104.futebol.model.webservice.Time;
 
 
 @Entity
-public class Grafico {
-	
+public class Grafico implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id @GeneratedValue
 	private int id;
 	
@@ -27,11 +32,8 @@ public class Grafico {
 	
 	private String tipo;
 	
-	@Transient
-	private List<String> categories;
-	
 	@OneToMany(mappedBy="grafico")
-	private List<Time> time;
+	private List<Time> times;
 
 	public int getId() {
 		return id;
@@ -81,20 +83,12 @@ public class Grafico {
 		this.tipo = tipo;
 	}
 
-	public List<String> getCategories() {
-		return categories;
+	public List<Time> getTimes() {
+		return times;
 	}
 
-	public void setCategories(List<String> categories) {
-		this.categories = categories;
-	}
-
-	public List<Time> getTime() {
-		return time;
-	}
-
-	public void setTime(List<Time> time) {
-		this.time = time;
+	public void setTimes(List<Time> times) {
+		this.times = times;
 	}
 
 	@Override

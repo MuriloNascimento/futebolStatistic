@@ -28,5 +28,9 @@ public class TimeRepository {
 		Query consulta = em.createQuery("select t from Time t");
 		return consulta.getResultList();
 	}
+
+	public Time buscarPorId(int parseInt) {
+		return em.find(Time.class, parseInt);
+	}
 	
 }

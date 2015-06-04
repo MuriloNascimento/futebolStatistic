@@ -1,6 +1,7 @@
 
 package com.m104.futebol.model.webservice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,7 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import com.mnstech.futebolStatistic.entidades.Grafico;
@@ -31,6 +33,7 @@ import com.mnstech.futebolStatistic.entidades.Grafico;
  *         &lt;element name="escudo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="estadio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="jogadores" type="{http://webservice.model.futebol.m104.com/}jogador" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="nome" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="tecnico" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="titulos" type="{http://www.w3.org/2001/XMLSchema}int"/>
@@ -47,30 +50,29 @@ import com.mnstech.futebolStatistic.entidades.Grafico;
     "escudo",
     "estadio",
     "id",
+    "jogadores",
     "nome",
     "tecnico",
-    "titulos",
-    "grafico",
-    "jogadores"
+    "titulos"
 })
 @Entity
-@XmlRootElement
 public class Time {
 
     protected String escudo;
     protected String estadio;
     @Id
     protected long id;
+    @XmlElement(nillable = true)
+    @OneToMany(mappedBy="time",fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+    protected List<Jogador> jogadores;
     protected String nome;
     protected String tecnico;
     protected int titulos;
     
+    @XmlTransient
     @JoinColumn
-    @ManyToOne
-    private Grafico grafico;
-    
-    @OneToMany(mappedBy="time",fetch=FetchType.EAGER,cascade=CascadeType.REMOVE)
-	private List<Jogador> jogadores;
+	@ManyToOne
+    protected Grafico grafico;
 
     /**
      * Gets the value of the escudo property.
@@ -137,6 +139,35 @@ public class Time {
     }
 
     /**
+     * Gets the value of the jogadores property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the jogadores property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getJogadores().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Jogador }
+     * 
+     * 
+     */
+    public List<Jogador> getJogadores() {
+        if (jogadores == null) {
+            jogadores = new ArrayList<Jogador>();
+        }
+        return this.jogadores;
+    }
+
+    /**
      * Gets the value of the nome property.
      * 
      * @return
@@ -199,21 +230,5 @@ public class Time {
     public void setTitulos(int value) {
         this.titulos = value;
     }
-
-	public Grafico getGrafico() {
-		return grafico;
-	}
-
-	public void setGrafico(Grafico grafico) {
-		this.grafico = grafico;
-	}
-
-	public List<Jogador> getJogadores() {
-		return jogadores;
-	}
-
-	public void setJogadores(List<Jogador> jogadores) {
-		this.jogadores = jogadores;
-	}
 
 }

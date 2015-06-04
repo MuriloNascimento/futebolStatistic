@@ -14,7 +14,6 @@ public class Serie {
 		this.name = time.getNome();
 		List<Integer> titulos = new ArrayList<Integer>(); 
 		titulos.add(time.getTitulos());
-		titulos.add(time.getTitulos()+1);
 		this.data = titulos;
 	}
 	
