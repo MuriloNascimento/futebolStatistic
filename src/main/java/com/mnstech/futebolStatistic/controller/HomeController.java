@@ -39,7 +39,7 @@ public class HomeController {
 		
 		Gson gson = new Gson();
 		
-		Grafico grafico = graficoRepository.buscarPorId(2);
+		Grafico grafico = graficoRepository.buscarPorId(1);
 		
 		List<Serie> series = new ArrayList<Serie>();
 		List<Time> times = grafico.getTimes();

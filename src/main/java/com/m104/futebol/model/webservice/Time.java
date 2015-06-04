@@ -8,16 +8,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-
-import com.mnstech.futebolStatistic.entidades.Grafico;
 
 
 /**
@@ -68,11 +63,6 @@ public class Time {
     protected String nome;
     protected String tecnico;
     protected int titulos;
-    
-    @XmlTransient
-    @JoinColumn
-	@ManyToOne
-    protected Grafico grafico;
 
     /**
      * Gets the value of the escudo property.

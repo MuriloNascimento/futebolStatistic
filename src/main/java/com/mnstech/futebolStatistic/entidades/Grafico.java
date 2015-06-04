@@ -6,7 +6,9 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 import com.m104.futebol.model.webservice.Time;
 
@@ -32,7 +34,8 @@ public class Grafico implements Serializable{
 	
 	private String tipo;
 	
-	@OneToMany(mappedBy="grafico")
+	@ManyToMany	
+    @JoinTable(name="grafico_has_times", joinColumns={@JoinColumn(name="grafico_id")}, inverseJoinColumns={@JoinColumn(name="time_id")})
 	private List<Time> times;
 
 	public int getId() {
